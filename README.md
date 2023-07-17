@@ -3,6 +3,14 @@ What is this?
 
 This is the source for [http://hnbest.herokuapp.com/](http://hnbest.herokuapp.com/) a RSS feed for [http://news.ycombinator.com/best](http://news.ycombinator.com/best).
 
+## Installation
+
+``` bundle```
+
+## Deployment
+
+```foreman start```
+
 License
 -------
 This is free and unencumbered software released into the public domain.
