@@ -1,7 +1,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.4.1'
+ruby '3.0.6'
 
 gem 'sinatra'
 gem 'haml'
@@ -10,7 +10,8 @@ gem 'logger'
 gem 'nokogiri'
 
 gem 'sequel'
-gem 'pg'
+gem 'puma'
+
 group :development do
   gem 'sqlite3'
 end
