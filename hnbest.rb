@@ -14,7 +14,7 @@ HNBEST_URI = "#{HN_URI}/best"
 # 02 Oct 2002 15:00:00 +0200
 TIME_FORMAT = "%d %b %Y %H:%M:%S %z"  
 
-SELF_URI = "http://hnbest.herokuapp.com/rss"
+SELF_URI = "http://api.kanna.in/hnbest"
 
 UPDATE_INTERVAL = 600
 
