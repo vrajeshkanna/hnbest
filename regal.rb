@@ -1,6 +1,5 @@
 require "rubygems"
 require "sinatra"
-require "nokogiri"
 require "net/http"
 require "uri"
 require "haml"
@@ -8,10 +7,8 @@ require "time"
 require "sequel"
 require "logger"
 
-# Date format: 2013-10-20
 DATE_FORMAT = "%Y-%m-%d"
 next_friday = Time.now + (5 - Time.now.wday) * 24 * 60 * 60
-# format
 next_friday = next_friday.strftime(DATE_FORMAT)
 
 HN_URI = "https://www.regmovies.com/us/data-api-service/v1/quickbook/10110/film-events/in-cinema/0354/at-date/#{next_friday}?attr=&lang=en_US"
@@ -48,24 +45,15 @@ def update_database
   response = http.request(Net::HTTP::Get.new(uri.request_uri)).body
   response = JSON.parse(response)
 
-  print DB
   items = DB[:items]
-  even = false
   response["body"]["films"].each do |film|
-    if even
-      item = {}
-      print film
-      item[:link] = film["link"]
-      item[:url] = film["link"]
-      item[:name] = film["name"]
-      item[:length] = film["length"]
-      item[:post_time] = Time.now
-      items.insert(item)
-      
-      even = false
-    else
-      even = true
-    end
+    item = {}
+    item[:link] = film["link"]
+    item[:url] = film["link"]
+    item[:name] = film["name"]
+    item[:length] = film["length"]
+    item[:post_time] = Time.now
+    items.insert(item)
   end
   
   killtime = Time.now - UPDATE_INTERVAL
@@ -107,7 +95,7 @@ get "/" do
   haml :index, :escape_html => true
 end
 
-get "/rss" do
+get "/regal" do
   if params[:count]
     item_count = params[:count].to_i
   else
@@ -153,7 +141,7 @@ __END__
     %p
       You can append the GET-parameter "link_comments=1" to make the RSS entries point to the discussion instead of the submitted content. The default is to link to the submitted URL.
     %p
-      %a{:href => "https://github.com/kaini/hnbest"} Github
+      %a{:href => "https://github.com/vrajeshkanna/hnbest"} Github
 @@ rss
 !!! XML
 %rss{:version => "2.0", "xmlns:atom" => "http://www.w3.org/2005/Atom"}

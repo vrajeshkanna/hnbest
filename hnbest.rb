@@ -172,7 +172,7 @@ __END__
     %p
       You can append the GET-parameter "link_comments=1" to make the RSS entries point to the discussion instead of the submitted content. The default is to link to the submitted URL.
     %p
-      %a{:href => "https://github.com/kaini/hnbest"} Github
+      %a{:href => "https://github.com/vrajeshkanna/hnbest"} Github
 @@ rss
 !!! XML
 %rss{:version => "2.0", "xmlns:atom" => "http://www.w3.org/2005/Atom"}
