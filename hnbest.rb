@@ -126,7 +126,7 @@ get "/" do
   haml :index, :escape_html => true
 end
 
-get "/rss" do
+get "/hnbest" do
   if params[:count]
     item_count = params[:count].to_i
   else
