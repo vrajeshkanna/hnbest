@@ -48,7 +48,6 @@ def update_database
   items = DB[:items]
   response["body"]["films"].each do |film|
     item = {}
-    item[:link] = film["link"]
     item[:url] = film["link"]
     item[:name] = film["name"]
     item[:length] = film["length"]
