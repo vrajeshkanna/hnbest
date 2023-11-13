@@ -1,7 +1,7 @@
 What is this?
 ============
 
-This is the source for [http://hnbest.herokuapp.com/](http://hnbest.herokuapp.com/) a RSS feed for [http://news.ycombinator.com/best](http://news.ycombinator.com/best).
+This is the source for [https://api.kanna.in/hnbest]([http://hnbest.herokuapp.com/](https://api.kanna.in/hnbest)) a RSS feed for [http://news.ycombinator.com/best](http://news.ycombinator.com/best).
 
 ## Installation
 
