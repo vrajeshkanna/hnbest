@@ -11,14 +11,14 @@ DATE_FORMAT = "%Y-%m-%d"
 next_friday = Time.now + (5 - Time.now.wday) * 24 * 60 * 60
 next_friday = next_friday.strftime(DATE_FORMAT)
 
-HN_URI = "https://www.regmovies.com/us/data-api-service/v1/quickbook/10110/film-events/in-cinema/0354/at-date/#{next_friday}?attr=&lang=en_US"
+MOVIES_URI = "https://www.regmovies.com/api/getShowtimes?theatres=0354&date=#{next_friday}&hoCode=&ignoreCache=false&moviesOnly=false"
 
 # 02 Oct 2002 15:00:00 +0200
 TIME_FORMAT = "%d %b %Y %H:%M:%S %z"  
 
 SELF_URI = "http://api.kanna.in/hnbest"
 
-UPDATE_INTERVAL = 600
+UPDATE_INTERVAL = 3600
 
 #####################
 ### DATABASE PART ###
@@ -39,18 +39,19 @@ DB.create_table? :last_update do
 end
 
 def update_database
-  uri = URI.parse(HN_URI)
+  uri = URI.parse(MOVIES_URI)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
   response = http.request(Net::HTTP::Get.new(uri.request_uri)).body
   response = JSON.parse(response)
 
+  # Movies fetches all movies, not just the ones that are playing
   items = DB[:items]
-  response["body"]["films"].each do |film|
+  response["shows"][0]["Film"].each do |film|
     item = {}
-    item[:url] = film["link"]
-    item[:name] = film["name"]
-    item[:length] = film["length"]
+    item[:url] = "www.regmovies.com"
+    item[:name] = film["Title"]
+    item[:length] = 100
     item[:post_time] = Time.now
     items.insert(item)
   end
@@ -130,11 +131,11 @@ __END__
     %link{:rel => "alternate",
           :type => "application/rss+xml",
           :title => "Regal Movies RSS",
-          :href => "/rss"}
+          :href => "/regal"}
   %body
     %h1
       Regal Movies RSS
-      %a{:href => "/rss"} RSS
+      %a{:href => "/regal"} RSS
     %p
       You can append the GET-parameter "count=n" to reduce the amount of news items to n. The default is 30.
     %p
@@ -160,7 +161,7 @@ __END__
         %description
           <![CDATA[
           %p
-            %a{:href => item[:url]}= item[:title]
+            %span= item[:name]
           ]]>
       
 
