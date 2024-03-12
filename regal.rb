@@ -45,7 +45,6 @@ def update_database
   response = http.request(Net::HTTP::Get.new(uri.request_uri)).body
   response = JSON.parse(response)
 
-  # Movies fetches all movies, not just the ones that are playing
   items = DB[:items]
   response["shows"][0]["Film"].each do |film|
     item = {}
@@ -96,25 +95,7 @@ get "/" do
 end
 
 get "/regal" do
-  if params[:count]
-    item_count = params[:count].to_i
-  else
-    item_count = 30
-  end
-  if item_count <= 0
-    item_count = 30
-  end
-
-  content_type :rss
-  items = fetch_items item_count
-  lu = last_update
-  haml :rss, :escape_html => true,
-       :locals => {:link => 'https://www.regmovies.com/',
-                   :items => items,
-                   :self_href => SELF_URI,
-                   :last_build => lu,
-                   :time_format => TIME_FORMAT,
-                   :link_comments => params[:link_comments].to_i == 1}
+  redirect MOVIES_URI
 end
 
 #################
